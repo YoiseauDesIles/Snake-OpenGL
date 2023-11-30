@@ -20,7 +20,7 @@ private:
 
 public:
 	Renderer();
-	void draw(const GameBoard& grid) const;
+	void draw(GameBoard& grid) const;
 
 	friend std::ostream& operator<<(std::ostream& os, const Renderer& render);
 

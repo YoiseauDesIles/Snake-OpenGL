@@ -4,19 +4,26 @@
 #include <array>
 #include "Case.h"
 #include "Utils.h"
+//#include "GameBoard.h"
 
+class GameBoard;
 
 class Snake
 {
 private:
-	std::vector<Case*> m_snake;
+	
 	bool m_eating = false;
 	Case* m_eatingFruitCoords = nullptr;
+
+	bool addFruitElement();
 
 public:
 	Snake();
 
-	void move(direction dir, std::array<std::array<Case, 20>, 20>& gameBoard);
+
+	std::vector<Case*> m_snake;
+	//void move(direction dir, std::array<std::array<Case, 20>,20>& gameBoard);
+	void move(direction dir, GameBoard& gameboard);
 	void eat(Case* fruit);
 	void addSnakeCase(Case* boardCase);
 

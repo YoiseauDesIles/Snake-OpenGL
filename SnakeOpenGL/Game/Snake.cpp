@@ -1,4 +1,6 @@
 #include "Snake.h"
+#include "GameBoard.h"
+
 
 
 Snake::Snake()
@@ -7,11 +9,13 @@ Snake::Snake()
 
 }
 
-void Snake::move(direction dir, std::array<std::array<Case, 20>, 20>& gameBoard)
+void Snake::move(direction dir, GameBoard& gameboard)
 {
 
 	uint8_t snakeLen = m_snake.size();
-	m_snake.back()->emptyCase();
+
+	if (!addFruitElement())
+		m_snake.back()->emptyCase();
 
 	if (snakeLen > 1)
 	{
@@ -39,16 +43,15 @@ void Snake::move(direction dir, std::array<std::array<Case, 20>, 20>& gameBoard)
 			break;
 	}
 
-	m_snake.front() = &gameBoard[currHeadPos.posX][currHeadPos.posY];
+
+	
+	//m_snake.front() = &grid[currHeadPos.posX][currHeadPos.posY];
+	m_snake.front() = &gameboard.getGrid()[currHeadPos.posX][currHeadPos.posY];
 	m_snake.front()->setSnake();
 
-	if (m_eatingFruitCoords != nullptr && (m_snake.back()->getCoords() == m_eatingFruitCoords->getCoords()))
-	{
-		addSnakeCase(m_eatingFruitCoords);
-		m_eatingFruitCoords = nullptr;
-	}
 
 }
+
 
 void Snake::eat(Case* fruit)
 {
@@ -76,4 +79,16 @@ std::vector<vec2>& Snake::getSnakeCoords() const
 vec2 Snake::getSnakeHeadCoord() const
 {
 	return m_snake.front()->getCoords();
+}
+
+bool Snake::addFruitElement()
+{
+	if (m_eatingFruitCoords != nullptr && (m_snake.back()->getCoords() == m_eatingFruitCoords->getCoords()))
+	{
+		addSnakeCase(m_eatingFruitCoords);
+		m_eatingFruitCoords = nullptr;
+		return true;
+	}
+	
+	return false;
 }

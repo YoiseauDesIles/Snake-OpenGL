@@ -5,7 +5,7 @@ Renderer::Renderer()
 {
 }
 
-void Renderer::draw(const GameBoard& gameBoard) const
+void Renderer::draw(GameBoard& gameBoard) const
 {
 
 	std::map<caseStatus, std::string> mapStatus =
@@ -30,7 +30,6 @@ void Renderer::draw(const GameBoard& gameBoard) const
 
 	system("cls");
 	std::cout << joinString << "\n";
-	//std::cout << this;
 
 }
 

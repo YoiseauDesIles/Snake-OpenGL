@@ -4,7 +4,9 @@
 #include <string>
 #include <stdlib.h>     /* srand, rand */
 #include "Case.h"
+#include "Snake.h"
 
+//class Snake;
 
 class GameBoard
 {
@@ -14,6 +16,8 @@ private:
 
 
 	std::array<std::array<Case, GRID_WIDTH>, GRID_HEIGHT> m_Grid;
+	Snake m_snake;
+	Case* m_fruit;
 	
 public:
 
@@ -26,7 +30,11 @@ public:
 
 	static uint8_t getBoardWidth() { return GRID_WIDTH;  }
 	static uint8_t getBoardHeight() { return GRID_HEIGHT;  }
-	std::array<std::array<Case, GRID_WIDTH>, GRID_HEIGHT> getGrid() const { return m_Grid; }
+
+	std::array<std::array<Case, GRID_WIDTH>, GRID_HEIGHT>& getGrid() { return m_Grid; }
+
+	Snake* getSnake() { return &m_snake; }
+	Case* getFruitCoords() const { return m_fruit; }
 
 };
 
