@@ -8,8 +8,6 @@
 #include "Case.h"
 
 
-
-
 class Renderer
 {
 private:

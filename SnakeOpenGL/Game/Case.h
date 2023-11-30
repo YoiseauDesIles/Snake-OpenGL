@@ -30,7 +30,9 @@ public:
 
 	bool isEmpty() const;
 	caseStatus getCaseStatus() const;
+	vec2 getCoords() const { return m_coord; }
 	void setCaseStatus(caseStatus status);
+	void emptyCase() { m_status = caseStatus::EMPTY; }
 	void setFruit() { m_status = caseStatus::FRUIT; }
 	void setSnake() { m_status = caseStatus::SNAKE; }
 

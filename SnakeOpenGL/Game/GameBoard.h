@@ -4,7 +4,6 @@
 #include <string>
 #include <stdlib.h>     /* srand, rand */
 #include "Case.h"
-#include "Snake.h"
 
 
 class GameBoard
@@ -15,13 +14,15 @@ private:
 
 
 	std::array<std::array<Case, GRID_WIDTH>, GRID_HEIGHT> m_Grid;
-	Snake m_snake;
-
+	
 public:
 
 	GameBoard();
 	~GameBoard() = default;
 
+	void updateCase(vec2 coords, caseStatus status);
+	void updateCaseSnake(vec2 coords);
+	void updateCaseFruit(vec2 coords);
 
 	static uint8_t getBoardWidth() { return GRID_WIDTH;  }
 	static uint8_t getBoardHeight() { return GRID_HEIGHT;  }

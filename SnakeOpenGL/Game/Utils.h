@@ -1,9 +1,13 @@
 #pragma once
+#include <iostream>
 #include <random>       /* time */
 #include <vector>
 #include <algorithm>
-#include "Case.h"
 
+
+enum class direction {
+	UP, DOWN, LEFT, RIGHT
+};
 
 static vec2 generateRandomCoords(int min, int max, std::vector<vec2>& excludedValues)
 {
@@ -20,3 +24,4 @@ static vec2 generateRandomCoords(int min, int max, std::vector<vec2>& excludedVa
 
 	return coords;
 }
+

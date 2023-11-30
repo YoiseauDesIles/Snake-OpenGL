@@ -28,6 +28,7 @@ void Renderer::draw(const GameBoard& gameBoard) const
 
 	}
 
+	system("cls");
 	std::cout << joinString << "\n";
 	//std::cout << this;
 
