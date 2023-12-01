@@ -102,12 +102,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Game\OpenGL\vendor;Game\OpenGL;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -116,32 +119,88 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Game\OpenGL\vendor;Game\OpenGL;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Game\OpenGL\IndexBuffer.cpp" />
+    <ClCompile Include="Game\OpenGL\Renderer.cpp" />
+    <ClCompile Include="Game\OpenGL\Shader.cpp" />
+    <ClCompile Include="Game\OpenGL\Texture.cpp" />
+    <ClCompile Include="Game\OpenGL\vendor\imgui\imgui.cpp" />
+    <ClCompile Include="Game\OpenGL\vendor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Game\OpenGL\vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Game\OpenGL\vendor\imgui\imgui_impl_glfw_gl3.cpp" />
+    <ClCompile Include="Game\OpenGL\vendor\stb\stb_image.cpp" />
+    <ClCompile Include="Game\OpenGL\VertexArray.cpp" />
+    <ClCompile Include="Game\OpenGL\VertexBuffer.cpp" />
+    <ClCompile Include="Game\Presenter\GamePresenter.cpp" />
     <ClCompile Include="Game\GameLoop.cpp" />
     <ClCompile Include="Game\GameMechanics.cpp" />
     <ClCompile Include="Game\Case.cpp" />
     <ClCompile Include="Game\GameBoard.cpp" />
-    <ClCompile Include="Game\Renderer.cpp" />
+    <ClCompile Include="Game\Presenter\PresenterObserver.cpp" />
+    <ClCompile Include="Game\RendererConsole.cpp" />
     <ClCompile Include="Game\Snake.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\OpenGL\IndexBuffer.h" />
+    <ClInclude Include="Game\OpenGL\Renderer.h" />
+    <ClInclude Include="Game\OpenGL\Shader.h" />
+    <ClInclude Include="Game\OpenGL\Texture.h" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\common.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\exponential.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\ext.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\fwd.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\geometric.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\glm.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\integer.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat2x2.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat2x3.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat2x4.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat3x2.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat3x3.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat3x4.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat4x2.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat4x3.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\mat4x4.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\matrix.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\packing.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\trigonometric.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\vec2.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\vec3.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\vec4.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\glm\vector_relational.hpp" />
+    <ClInclude Include="Game\OpenGL\vendor\imgui\imconfig.h" />
+    <ClInclude Include="Game\OpenGL\vendor\imgui\imgui.h" />
+    <ClInclude Include="Game\OpenGL\vendor\imgui\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="Game\OpenGL\vendor\imgui\imgui_internal.h" />
+    <ClInclude Include="Game\OpenGL\vendor\imgui\stb_rect_pack.h" />
+    <ClInclude Include="Game\OpenGL\vendor\imgui\stb_textedit.h" />
+    <ClInclude Include="Game\OpenGL\vendor\imgui\stb_truetype.h" />
+    <ClInclude Include="Game\OpenGL\vendor\stb\stb_image.h" />
+    <ClInclude Include="Game\OpenGL\VertexArray.h" />
+    <ClInclude Include="Game\OpenGL\VertexBuffer.h" />
+    <ClInclude Include="Game\OpenGL\VertexBufferLayout.h" />
+    <ClInclude Include="Game\Presenter\GamePresenter.h" />
     <ClInclude Include="Game\GameLoop.h" />
     <ClInclude Include="Game\GameMechanics.h" />
     <ClInclude Include="Game\Case.h" />
     <ClInclude Include="Game\GameBoard.h" />
+    <ClInclude Include="Game\Presenter\PresenterObserver.h" />
     <ClInclude Include="Game\Utils.h" />
-    <ClInclude Include="Game\Renderer.h" />
+    <ClInclude Include="Game\RendererConsole.h" />
     <ClInclude Include="Game\Snake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <time.h>
-#include "Renderer.h"
+#include "RendererConsole.h"
 #include "GameBoard.h"
 #include "GameMechanics.h"
 #include "Snake.h"
@@ -11,7 +11,7 @@ class GameLoop
 {
 private:
 	uint8_t FPS;
-	Renderer m_renderer;
+	RendererConsole m_renderer;
 	GameBoard m_gameBoard;
 	GameMechanics m_gameMechanics;
 	//Snake m_snake;

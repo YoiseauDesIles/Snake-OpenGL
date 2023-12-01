@@ -3,7 +3,7 @@
 
 GameLoop::GameLoop(uint8_t fps): FPS(fps)
 {
-	m_renderer = Renderer();
+	m_renderer = RendererConsole();
 	m_gameBoard = GameBoard();
 	//m_snake = Snake();
 	m_gameMechanics = GameMechanics(&m_gameBoard);
