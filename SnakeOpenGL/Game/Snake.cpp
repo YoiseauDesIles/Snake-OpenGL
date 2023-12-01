@@ -30,31 +30,30 @@ void Snake::move(direction dir, GameBoard& gameboard)
 	switch(dir) 
 	{
 		case direction::UP: 
-			currHeadPos.posY--;
+			(currHeadPos.posY == 0) ? currHeadPos.posY = GameBoard::getBoardHeight() - 1 : currHeadPos.posY--;
 			break;
 		case direction::DOWN:
-			currHeadPos.posY++;
+			(currHeadPos.posY == GameBoard::getBoardHeight() - 1) ? currHeadPos.posY = 0 : currHeadPos.posY++;
 			break;
 		case direction::LEFT:
-			currHeadPos.posX--;
+			(currHeadPos.posX == 0) ? currHeadPos.posX = GameBoard::getBoardWidth() - 1 : currHeadPos.posX--;
 			break;
 		case direction::RIGHT:
-			currHeadPos.posX++;
+			(currHeadPos.posX == GameBoard::getBoardWidth() - 1) ? currHeadPos.posX = 0 : currHeadPos.posX++;
 			break;
 	}
-
 
 	
 	//m_snake.front() = &grid[currHeadPos.posX][currHeadPos.posY];
 	m_snake.front() = &gameboard.getGrid()[currHeadPos.posX][currHeadPos.posY];
-	m_snake.front()->setSnake();
-
+	//m_snake.front()->setSnake();
 
 }
 
 
 void Snake::eat(Case* fruit)
 {
+	m_snake.front()->setSnake();
 	m_eatingFruitCoords = fruit;
 
 }
@@ -79,6 +78,11 @@ std::vector<vec2>& Snake::getSnakeCoords() const
 vec2 Snake::getSnakeHeadCoord() const
 {
 	return m_snake.front()->getCoords();
+}
+
+Case* Snake::getSnakeHead() const
+{
+	return m_snake.front();
 }
 
 bool Snake::addFruitElement()

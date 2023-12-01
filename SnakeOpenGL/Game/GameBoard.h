@@ -35,6 +35,7 @@ public:
 
 	Snake* getSnake() { return &m_snake; }
 	Case* getFruitCoords() const { return m_fruit; }
+	bool isSnakeCase() const;
 
 };
 

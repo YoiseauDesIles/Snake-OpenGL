@@ -29,5 +29,6 @@ public:
 
 	std::vector<vec2>& getSnakeCoords() const;
 	vec2 getSnakeHeadCoord() const;
+	Case* getSnakeHead() const;
 };
 

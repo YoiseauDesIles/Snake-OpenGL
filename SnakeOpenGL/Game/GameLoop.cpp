@@ -34,7 +34,11 @@ void GameLoop::startGame()
 		if (m_frameCnt % 30 == 0) {
             direction newDir = getKeyboardInput(prevDir);
 			m_gameMechanics.move(newDir);
-			m_renderer.draw(m_gameBoard);
+            if (m_gameMechanics.isGameOver()) {
+                m_isRunning = false;
+                m_renderer.drawGameOver();
+            }else
+			    m_renderer.draw(m_gameBoard);
 		}
 
 		if (m_frameCnt == 60)
@@ -43,10 +47,8 @@ void GameLoop::startGame()
 			m_frameCnt = 0;
 		}
 
-		if (moveCnt >= 7)
+		if (moveCnt >= 20)
 			m_isRunning = false;
-		
-			
 
 	}
 

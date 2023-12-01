@@ -33,6 +33,12 @@ void Renderer::draw(GameBoard& gameBoard) const
 
 }
 
+void Renderer::drawGameOver() const
+{
+	system("cls");
+	std::cout << "Game over" << "\n";
+}
+
 
 
 std::ostream& operator<<(std::ostream& stream, const Renderer& other)

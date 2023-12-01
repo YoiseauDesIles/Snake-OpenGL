@@ -7,7 +7,9 @@ class GameMechanics
 {
 private:
 	GameBoard* m_gameBoard;
-	//Snake m_snake;
+	bool m_gameIsOver = false;
+	
+
 
 public:
 	GameMechanics();
@@ -16,6 +18,6 @@ public:
 	void initGame();
 	void move(direction dir);
 	void generateNewFruit();
-	
+	bool isGameOver() const { return m_gameIsOver; }
 };
 

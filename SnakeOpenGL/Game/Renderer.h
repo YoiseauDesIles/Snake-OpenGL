@@ -21,6 +21,7 @@ private:
 public:
 	Renderer();
 	void draw(GameBoard& grid) const;
+	void drawGameOver() const;
 
 	friend std::ostream& operator<<(std::ostream& os, const Renderer& render);
 

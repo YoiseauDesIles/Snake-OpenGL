@@ -29,6 +29,8 @@ public:
 	~Case() = default;
 
 	bool isEmpty() const;
+	bool isSnake() const;
+	bool isFruit() const;
 	caseStatus getCaseStatus() const;
 	vec2 getCoords() const { return m_coord; }
 	void setCaseStatus(caseStatus status);

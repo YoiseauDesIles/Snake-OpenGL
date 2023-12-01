@@ -20,6 +20,9 @@ void GameMechanics::initGame()
 
 	//generateNewFruit();
 	m_gameBoard->updateCaseFruit({ 10, 7 });
+	//m_gameBoard->updateCaseFruit({ 10, 5 });
+	//m_gameBoard->updateCaseFruit({ 10, 4 });
+	//m_gameBoard->updateCaseSnake({ 10, 5 });
 }
 
 void GameMechanics::move(direction dir)
@@ -28,11 +31,17 @@ void GameMechanics::move(direction dir)
 	Snake* snake = m_gameBoard->getSnake();
 	snake->move(dir, *m_gameBoard);
 
+	Case* snakeHead = snake->getSnakeHead();
 
-	if (snake->getSnakeHeadCoord() == m_gameBoard->getFruitCoords()->getCoords()) {
-		snake->eat(m_gameBoard->getFruitCoords());
+	if (snakeHead->isEmpty())
+		snakeHead->setSnake();
+	else if (snakeHead->isFruit())
+	{
+		snake->eat(snakeHead);
 		generateNewFruit();
 	}
+	else
+		m_gameIsOver = true;
 
 }
 
