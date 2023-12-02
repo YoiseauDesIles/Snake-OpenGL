@@ -11,6 +11,8 @@
 #include "VertexBufferLayout.h"
 #include "Texture.h"
 
+#include <memory>
+
 struct Vec2
 {
 	float x, y;
@@ -27,6 +29,14 @@ struct Vertex
 	Vec4 color;
 };
 
+struct Quad
+{
+	Vertex vertex1;
+	Vertex vertex2;
+	Vertex vertex3;
+	Vertex vertex4;
+};
+
 class GameRenderer
 {
 private:
@@ -38,6 +48,7 @@ private:
 	};
 
 	float m_windowWidth, m_windowHeight;
+	std::vector<Quad> m_vertices;
 
 	std::unique_ptr<VertexArray> m_VertexArray;
 	std::unique_ptr<IndexBuffer> m_IndexBuffer;
@@ -45,12 +56,15 @@ private:
 	std::unique_ptr<VertexBuffer> m_VertexBuffer;
 
 	VertexBufferLayout m_layout;
+	Renderer m_renderer;
 
 	glm::mat4 m_ProjectionMatrix, m_ViewMatrix;
+	glm::vec3 m_TranslationMatrix;
 
 	void initRenderer();
 	std::vector<uint32_t> initIndices(const size_t& maxIndexCount);
-	Vertex* createQuad(Vertex* target, float x, float y);
+	Quad createQuad(float x, float y);
+	void initVertices();
 
 public:
 	GameRenderer() = default;

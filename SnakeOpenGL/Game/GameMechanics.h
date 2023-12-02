@@ -21,7 +21,6 @@ public:
 	void onRender();
 	
 	void initGame();
-	void initRenderer();
 	void checkGameCase();
 	void generateNewFruit();
 	bool isGameOver() const { return m_gameIsOver; }

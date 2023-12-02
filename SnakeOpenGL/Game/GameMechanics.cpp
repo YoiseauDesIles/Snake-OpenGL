@@ -7,8 +7,8 @@ GameMechanics::GameMechanics(GameBoard* gameBoard)
 	m_gameBoard = gameBoard;
 	m_snake = gameBoard->getSnake();
 	initGame();
-	m_renderer = GameRenderer(GameBoard::getBoardWidth(), GameBoard::getBoardHeight());
-	initRenderer();
+	m_renderer = GameRenderer(900, 540);
+	
 }
 
 
@@ -36,10 +36,6 @@ void GameMechanics::initGame()
 
 }
 
-void GameMechanics::initRenderer()
-{
-
-}
 
 void GameMechanics::checkGameCase()
 {

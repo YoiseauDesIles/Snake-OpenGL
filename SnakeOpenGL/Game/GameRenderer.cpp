@@ -1,13 +1,16 @@
 #include "GameRenderer.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "Renderer.h"
 
 
 GameRenderer::GameRenderer(float width, float height):
 	m_windowWidth(width), m_windowHeight(height),
 	m_ProjectionMatrix(glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f)),
-	m_ViewMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)))
+	m_ViewMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0))),
+	m_TranslationMatrix(0, 0, 0)
 {
+	m_renderer = Renderer();
 	initRenderer();
 }
 
@@ -30,11 +33,28 @@ void GameRenderer::initRenderer()
 	std::vector<uint32_t> indices = initIndices(maxIndexCount);
 
 	m_VertexArray->addBuffer(*m_VertexBuffer, m_layout);
-	m_IndexBuffer = std::make_unique<IndexBuffer>(indices, sizeof(indices));
+	m_IndexBuffer = std::make_unique<IndexBuffer>(indices.data(), sizeof(indices), true);
 	
 	m_Shader = std::make_unique<Shader>("Game/ressources/shaders/Basic.shader");
 	m_Shader->bind();
-	m_Shader->setUniform4f("u_Color", 0.9f, 0.8f, 0.8f, 1.0f);
+	m_Shader->setUniform4f("u_Color", 0.5f, 0.1f, 0.8f, 1.0f);
+
+	initVertices();
+	
+	m_VertexBuffer->bind();
+
+	GLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size() * sizeof(Vertex), m_vertices.data()));
+
+	GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+	GLCall(glClear(GL_COLOR_BUFFER_BIT));
+
+	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), m_TranslationMatrix);
+	glm::mat4 MVPMatrix = m_ProjectionMatrix * m_ViewMatrix * modelMatrix;
+	m_Shader->bind();
+	m_Shader->setUniformMat4f("u_MVP", MVPMatrix);
+
+	m_renderer.draw(*m_VertexArray, *m_IndexBuffer, *m_Shader);
+
 }
 
 std::vector<uint32_t> GameRenderer::initIndices(const size_t& maxIndexCount)
@@ -61,9 +81,24 @@ std::vector<uint32_t> GameRenderer::initIndices(const size_t& maxIndexCount)
 
 		offset += 4;
 	}
+	return indices;
 }
 
-Vertex* GameRenderer::createQuad(Vertex* target, float x, float y)
+void GameRenderer::initVertices()
+{
+	size_t indexCount = 0;
+	for (int y = 0; y < GameBoard::getBoardHeight(); y++)
+	{
+		for (int x = 0; x < GameBoard::getBoardWidth(); x++)
+		{
+			m_vertices.push_back(createQuad(x, y));
+			indexCount += 6;
+		}
+	}
+	m_IndexBuffer->setCount(indexCount);
+}
+
+Quad GameRenderer::createQuad(float x, float y)
 {
 	float quadWidth = m_windowWidth / GameBoard::getBoardWidth();
 	float quadHeight = m_windowHeight / GameBoard::getBoardHeight();
@@ -71,9 +106,20 @@ Vertex* GameRenderer::createQuad(Vertex* target, float x, float y)
 	x *= quadWidth;
 	y *= quadHeight;
 
+	Quad quad;
+	quad.vertex1.position = { x ,y };
+	quad.vertex1.color = { 0.2, 0.5, 0.6, 1.0 };
 
+	quad.vertex2.position = { x + quadWidth ,y };
+	quad.vertex2.color = { 0.1, 0.5, 0.8, 1.0 };
 
+	quad.vertex3.position = { x + quadWidth ,y + quadHeight};
+	quad.vertex3.color = { 0.1, 0.5, 0.8, 1.0 };
 
+	quad.vertex4.position = { x ,y + quadHeight };
+	quad.vertex4.color = { 0.1, 0.5, 0.8, 1.0 };
+
+	return quad;
 }
 
 
