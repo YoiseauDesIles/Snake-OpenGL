@@ -6,8 +6,7 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Renderer.h"
-
+#include "Game/GameLoop.h"
 
 int main(int argc, char** argv) 
 {
@@ -40,17 +39,12 @@ int main(int argc, char** argv)
 	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	GLCall(glEnable(GL_BLEND));
 
-	Renderer renderer;
+	GameLoop gameLoop;
 
 	while (!glfwWindowShouldClose(window))
 	{
-		GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
-		renderer.clear();
+		gameLoop.startGame(window);
 
-
-		glfwSwapBuffers(window);
-
-		glfwPollEvents();
 	}
 
 

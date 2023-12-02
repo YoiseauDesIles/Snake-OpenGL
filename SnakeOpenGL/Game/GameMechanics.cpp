@@ -1,15 +1,28 @@
 #include "GameMechanics.h"
 
-GameMechanics::GameMechanics()
-{
 
-}
 
 GameMechanics::GameMechanics(GameBoard* gameBoard)
 {
 	m_gameBoard = gameBoard;
+	m_snake = gameBoard->getSnake();
 	initGame();
+	m_renderer = GameRenderer(GameBoard::getBoardWidth(), GameBoard::getBoardHeight());
+	initRenderer();
 }
+
+
+void GameMechanics::onUpdate(direction dir)
+{
+	m_snake->move(dir, *m_gameBoard);
+	checkGameCase();
+}
+
+void GameMechanics::onRender()
+{
+
+}
+
 
 
 void GameMechanics::initGame()
@@ -18,32 +31,30 @@ void GameMechanics::initGame()
 	m_gameBoard->updateCaseSnake({ initSnakeCoords.posX, initSnakeCoords.posY });
 	m_gameBoard->getSnake()->addSnakeCase(&m_gameBoard->getGrid()[initSnakeCoords.posX][initSnakeCoords.posY]);
 
-	//generateNewFruit();
-	m_gameBoard->updateCaseFruit({ 10, 7 });
-	//m_gameBoard->updateCaseFruit({ 10, 5 });
-	//m_gameBoard->updateCaseFruit({ 10, 4 });
-	//m_gameBoard->updateCaseSnake({ 10, 5 });
+	generateNewFruit();
+	//m_gameBoard->updateCaseFruit({ 10, 7 });
+
 }
 
-void GameMechanics::move(direction dir)
+void GameMechanics::initRenderer()
 {
 
-	Snake* snake = m_gameBoard->getSnake();
-	snake->move(dir, *m_gameBoard);
+}
 
-	Case* snakeHead = snake->getSnakeHead();
-
+void GameMechanics::checkGameCase()
+{
+	Case* snakeHead = m_snake->getSnakeHead();
 	if (snakeHead->isEmpty())
 		snakeHead->setSnake();
 	else if (snakeHead->isFruit())
 	{
-		snake->eat(snakeHead);
+		m_snake->eat(snakeHead);
 		generateNewFruit();
 	}
 	else
 		m_gameIsOver = true;
-
 }
+
 
 void GameMechanics::generateNewFruit()
 {

@@ -16,12 +16,11 @@ private:
 	Case* m_eatingFruitCoords = nullptr;
 
 	bool addFruitElement();
+	std::vector<Case*> m_snake;
 
 public:
 	Snake();
-
-
-	std::vector<Case*> m_snake;
+	
 	//void move(direction dir, std::array<std::array<Case, 20>,20>& gameBoard);
 	void move(direction dir, GameBoard& gameboard);
 	void eat(Case* fruit);

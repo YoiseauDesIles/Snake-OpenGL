@@ -151,7 +151,7 @@
     <ClCompile Include="Game\Case.cpp" />
     <ClCompile Include="Game\GameBoard.cpp" />
     <ClCompile Include="Game\Presenter\PresenterObserver.cpp" />
-    <ClCompile Include="Game\RendererConsole.cpp" />
+    <ClCompile Include="Game\GameRenderer.cpp" />
     <ClCompile Include="Game\Snake.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,7 +200,7 @@
     <ClInclude Include="Game\GameBoard.h" />
     <ClInclude Include="Game\Presenter\PresenterObserver.h" />
     <ClInclude Include="Game\Utils.h" />
-    <ClInclude Include="Game\RendererConsole.h" />
+    <ClInclude Include="Game\GameRenderer.h" />
     <ClInclude Include="Game\Snake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
