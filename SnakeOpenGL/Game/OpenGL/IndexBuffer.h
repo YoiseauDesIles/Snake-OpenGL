@@ -8,7 +8,7 @@ private:
 
 public:
 	IndexBuffer(const unsigned int* data, unsigned int count);
-	IndexBuffer(const unsigned* data, unsigned count, bool dynamicMode);
+	IndexBuffer(const unsigned int* data, unsigned int count, bool dynamicMode);
 	~IndexBuffer();
 
 	void bind() const;

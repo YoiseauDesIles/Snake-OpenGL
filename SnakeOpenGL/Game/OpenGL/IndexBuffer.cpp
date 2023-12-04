@@ -1,7 +1,7 @@
 #include "IndexBuffer.h"
 #include "Renderer.h"
 
-IndexBuffer::IndexBuffer(const unsigned* data, unsigned count) :m_count(count)
+IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count) :m_count(count)
 {
     ASSERT(sizeof(unsigned int) == sizeof(GLuint));
 
@@ -12,7 +12,7 @@ IndexBuffer::IndexBuffer(const unsigned* data, unsigned count) :m_count(count)
 }
 
 
-IndexBuffer::IndexBuffer(const unsigned* data, unsigned count, bool dynamicMode) :m_count(count)
+IndexBuffer::IndexBuffer(const unsigned int * data, unsigned int count, bool dynamicMode) :m_count(count)
 {
     ASSERT(sizeof(unsigned int) == sizeof(GLuint));
 

@@ -7,7 +7,7 @@ GameMechanics::GameMechanics(GameBoard* gameBoard)
 	m_gameBoard = gameBoard;
 	m_snake = gameBoard->getSnake();
 	initGame();
-	m_renderer = GameRenderer(900, 540);
+	m_renderer = GameRenderer(960.0f, 540.0f);
 	
 }
 
@@ -18,9 +18,9 @@ void GameMechanics::onUpdate(direction dir)
 	checkGameCase();
 }
 
-void GameMechanics::onRender()
+void GameMechanics::onRender(GLFWwindow* window)
 {
-
+	m_renderer.draw(window);
 }
 
 

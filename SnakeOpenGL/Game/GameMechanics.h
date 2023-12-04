@@ -18,7 +18,7 @@ public:
 	GameMechanics(GameBoard* gameBoard);
 
 	void onUpdate(direction dir);
-	void onRender();
+	void onRender(GLFWwindow* window);
 	
 	void initGame();
 	void checkGameCase();

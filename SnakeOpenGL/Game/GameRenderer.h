@@ -4,6 +4,11 @@
 #include <array>
 #include <string>
 #include <map>
+
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "Renderer.h"
 #include "GameBoard.h"
 #include "Case.h"
 
@@ -37,6 +42,8 @@ struct Quad
 	Vertex vertex4;
 };
 
+class GLFWwindow;
+
 class GameRenderer
 {
 private:
@@ -57,11 +64,13 @@ private:
 
 	VertexBufferLayout m_layout;
 	Renderer m_renderer;
+	size_t m_indexCount = 0;
 
 	glm::mat4 m_ProjectionMatrix, m_ViewMatrix;
 	glm::vec3 m_TranslationMatrix;
 
 	void initRenderer();
+	void initRenderer2();
 	std::vector<uint32_t> initIndices(const size_t& maxIndexCount);
 	Quad createQuad(float x, float y);
 	void initVertices();
@@ -71,6 +80,9 @@ public:
 	GameRenderer(float width, float height);
 	void drawConsole(GameBoard& grid) const;
 	void drawGameOver() const;
+	Renderer* getRenderer() { return &m_renderer; }
+
+	void draw(GLFWwindow* window);
 
 	friend std::ostream& operator<<(std::ostream& os, const GameRenderer& render);
 

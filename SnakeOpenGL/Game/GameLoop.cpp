@@ -42,7 +42,7 @@ void GameLoop::startGame(GLFWwindow* window)
 			glfwPollEvents();
 
 			m_gameMechanics.onUpdate(direction::DOWN);
-			m_gameMechanics.onRender();
+			m_gameMechanics.onRender(window);
 
             /*if (m_gameMechanics.isGameOver()) {
                 m_isRunning = false;
