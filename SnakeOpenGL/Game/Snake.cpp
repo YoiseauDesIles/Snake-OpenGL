@@ -63,7 +63,7 @@ void Snake::addSnakeCase(Case* boardCase)
 	m_snake.push_back(boardCase);
 }
 
-std::vector<vec2>& Snake::getSnakeCoords() const
+std::vector<vec2> Snake::getSnakeCoords() const
 {
 	std::vector<vec2> snakeCoords = std::vector<vec2>();
 	for (Case* coord : m_snake)

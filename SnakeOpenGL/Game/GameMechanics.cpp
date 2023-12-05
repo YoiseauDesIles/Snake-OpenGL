@@ -1,4 +1,5 @@
 #include "GameMechanics.h"
+#include "GLFW/glfw3.h"
 
 
 
@@ -7,19 +8,21 @@ GameMechanics::GameMechanics(GameBoard* gameBoard)
 	m_gameBoard = gameBoard;
 	m_snake = gameBoard->getSnake();
 	initGame();
-	m_renderer = GameRenderer(960.0f, 540.0f);
+	m_renderer = GameRenderer(400.0f, 400.0f);
 	
 }
 
 
-void GameMechanics::onUpdate(direction dir)
+void GameMechanics::onUpdate(GLFWwindow* window)
 {
-	m_snake->move(dir, *m_gameBoard);
+	m_lastDir = getDirection(window, m_lastDir);
+	m_snake->move(m_lastDir, *m_gameBoard);
 	checkGameCase();
 }
 
 void GameMechanics::onRender(GLFWwindow* window)
 {
+	m_renderer.updateVertices(*m_gameBoard);
 	m_renderer.draw(window);
 }
 
@@ -32,7 +35,6 @@ void GameMechanics::initGame()
 	m_gameBoard->getSnake()->addSnakeCase(&m_gameBoard->getGrid()[initSnakeCoords.posX][initSnakeCoords.posY]);
 
 	generateNewFruit();
-	//m_gameBoard->updateCaseFruit({ 10, 7 });
 
 }
 
@@ -54,7 +56,7 @@ void GameMechanics::checkGameCase()
 
 void GameMechanics::generateNewFruit()
 {
-	std::vector<vec2> snakeCoords = m_gameBoard->getSnake()->getSnakeCoords();
+	auto snakeCoords = m_snake->getSnakeCoords();
 
 	vec2 fruitCoords = generateRandomCoords(0, GameBoard::getBoardWidth() - 1, snakeCoords);
 	m_gameBoard->updateCaseFruit(fruitCoords);
@@ -63,3 +65,18 @@ void GameMechanics::generateNewFruit()
 }
 
 
+direction GameMechanics::getDirection(GLFWwindow* window, direction previousDir)
+{
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && previousDir != direction::DOWN)
+		return direction::UP;
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && previousDir != direction::UP)
+		return direction::DOWN;
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && previousDir != direction::RIGHT)
+		return direction::LEFT;
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && previousDir != direction::LEFT)
+		return direction::RIGHT;
+
+	return previousDir;
+
+}

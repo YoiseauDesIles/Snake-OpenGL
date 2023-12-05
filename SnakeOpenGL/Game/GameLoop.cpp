@@ -24,7 +24,7 @@ void GameLoop::startGame(GLFWwindow* window)
 
 	GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 
-	while (m_isRunning)
+	while (m_isRunning && !glfwWindowShouldClose(window))
 	{
 		t1 = clock();
 
@@ -35,26 +35,30 @@ void GameLoop::startGame(GLFWwindow* window)
 
 
 		m_frameCnt++;
-		if (m_frameCnt % 30 == 0) {
-            
+		if (m_frameCnt % 5 == 0) {
+
 			glfwSwapBuffers(window);
 
 			glfwPollEvents();
 
-			m_gameMechanics.onUpdate(direction::DOWN);
+			m_gameMechanics.onUpdate(window);
 			m_gameMechanics.onRender(window);
 
-            /*if (m_gameMechanics.isGameOver()) {
-                m_isRunning = false;
-                //m_renderer.drawGameOver();
-            }else
-			    //m_renderer.draw(m_gameBoard);*/
+			if (m_gameMechanics.isGameOver()) {
+				stopGame();
 
-			m_frameCnt = 0;
+				m_frameCnt = 0;
+			}
+
 		}
-
 	}
 
+}
+
+void GameLoop::stopGame()
+{
+	m_isRunning = false;
+	glfwTerminate();
 }
 
 

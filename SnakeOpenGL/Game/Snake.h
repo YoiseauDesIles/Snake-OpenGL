@@ -26,7 +26,7 @@ public:
 	void eat(Case* fruit);
 	void addSnakeCase(Case* boardCase);
 
-	std::vector<vec2>& getSnakeCoords() const;
+	std::vector<vec2> getSnakeCoords() const;
 	vec2 getSnakeHeadCoord() const;
 	Case* getSnakeHead() const;
 };

@@ -54,33 +54,10 @@ void GameRenderer::initRenderer()
 	m_layout.push<float>(2); //Coords
 	m_layout.push<float>(4); //Color
 
-	std::vector<uint32_t> indices = initIndices(maxIndexCount);
-	/*std::vector<uint32_t> indices;
-	std::array<uint32_t, 2400> indices2;
-	uint32_t offset = 0;
-	for (size_t i = 0; i < maxIndexCount; i += 6)
-	{
-		indices.push_back(0 + offset);
-		indices.push_back(1 + offset);
-		indices.push_back(2 + offset);
-
-		indices.push_back(2 + offset);
-		indices.push_back(3 + offset);
-		indices.push_back(0 + offset);
-
-		indices2[i + 0] = 0 + offset;
-		indices2[i + 1] = 1 + offset;
-		indices2[i + 2] = 2 + offset;
-
-		indices2[i + 3] = 2 + offset;
-		indices2[i + 4] = 3 + offset;
-		indices2[i + 5] = 0 + offset;
-		
-		offset += 4;
-	}*/
+	m_indices = initIndices(maxIndexCount);
 
 	m_VertexArray->addBuffer(*m_VertexBuffer, m_layout);
-	m_IndexBuffer = std::make_unique<IndexBuffer>(indices.data(), indices.size()* sizeof(uint32_t));
+	m_IndexBuffer = std::make_unique<IndexBuffer>(m_indices.data(), m_indices.size()* sizeof(uint32_t));
 	
 	m_Shader = std::make_unique<Shader>("Game/Ressources/Shaders/Basic.shader");
 	m_Shader->bind();
@@ -207,14 +184,6 @@ std::vector<uint32_t> GameRenderer::initIndices(const size_t& maxIndexCount)
 		indices.push_back(3 + offset);
 		indices.push_back(0 + offset);
 
-		/*indices[i + 0] = 0 + offset;
-		indices[i + 1] = 1 + offset;
-		indices[i + 2] = 2 + offset;
-
-		indices[i + 3] = 2 + offset;
-		indices[i + 4] = 3 + offset;
-		indices[i + 5] = 0 + offset;*/
-
 		offset += 4;
 	}
 	return indices;
@@ -225,7 +194,7 @@ void GameRenderer::initVertices()
 	size_t indexCount = 0;
 	int a = GameBoard::getBoardHeight();
 	int b = GameBoard::getBoardWidth();
-	for (int y = 0; y < GameBoard::getBoardHeight(); y++)
+	for (int y = GameBoard::getBoardHeight()-1; y >=0 ; y--)
 	{
 		for (int x = 0; x < GameBoard::getBoardWidth(); x++)
 		{
@@ -236,6 +205,7 @@ void GameRenderer::initVertices()
 	m_indexCount = indexCount+6;
 	m_IndexBuffer->setCount(indexCount+6);
 }
+
 
 Quad GameRenderer::createQuad(float x, float y)
 {
@@ -262,6 +232,41 @@ Quad GameRenderer::createQuad(float x, float y)
 	return quad;
 }
 
+void GameRenderer::updateVertices(GameBoard& gameBoard)
+{
+	std::map<caseStatus, Vec4> colorMap =
+	{
+		{caseStatus::EMPTY, {0.1, 0.1, 0.1, 0.5}},
+		{caseStatus::FRUIT, {0.9, 0.2, 0.4, 1.0}},
+		{caseStatus::SNAKE, {0.2, 0.6, 0.2, 1.0}}
+	};
+
+	auto board = gameBoard.getGrid();
+
+	for (int x = 0; x <= GameBoard::getBoardHeight() - 1; x++)
+	{
+		for (int y = 0; y <= GameBoard::getBoardWidth() - 1; y++)
+		{
+			uint32_t position = y * GameBoard::getBoardWidth() + x;
+			setQuadColor(&m_vertices[position], colorMap[board[x][y].getCaseStatus()]);
+		}
+	}
+	/*
+	for (it = quads.begin(); it != quads.end(); it++)
+	{	
+		uint32_t position = it->first.y * GameBoard::getBoardWidth() + it->first.x;
+		setQuadColor(&m_vertices[position], colorMap[it->second]);
+	}
+	*/
+}
+
+void GameRenderer::setQuadColor(Quad* quad, Vec4 color)
+{
+	quad->vertex1.color = color;
+	quad->vertex2.color = color;
+	quad->vertex3.color = color;
+	quad->vertex4.color = color;
+}
 
 void GameRenderer::drawConsole(GameBoard& gameBoard) const
 {
@@ -301,31 +306,12 @@ void GameRenderer::draw(GLFWwindow* window)
 	GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 	m_renderer.clear();
 
-	/*uint32_t indexCount = 0;
-
-	std::array<Vertex, 1000> vertices;
-	Vertex* buffer = vertices.data();
-
-	for (int y = 0; y < 5; y++)
-	{
-		for (int x = 0; x < 5; x++)
-		{
-			buffer = createQuad2(buffer, x, y);
-			indexCount += 6;
-		}
-	}
-
-	m_IndexBuffer->setCount(indexCount);
-	
 	m_VertexBuffer->bind();
-	GLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), vertices.data()));
+	GLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size() * sizeof(Quad), m_vertices.data()));
 
 	GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-
-	*/
-	m_IndexBuffer->setCount(m_indexCount);
 	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), m_TranslationMatrix);
 	glm::mat4 MVPMatrix = m_ProjectionMatrix * m_ViewMatrix * modelMatrix;
 	m_Shader->bind();

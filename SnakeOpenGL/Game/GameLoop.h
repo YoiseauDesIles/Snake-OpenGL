@@ -23,6 +23,7 @@ public:
 	~GameLoop() = default;
 
 	void startGame(GLFWwindow* window);
+	void stopGame();
 	direction getKeyboardInput(direction previousDir);
 };
 

@@ -12,12 +12,15 @@ private:
 	bool m_gameIsOver = false;
 	Snake* m_snake;
 	GameRenderer m_renderer;
+	direction m_lastDir = direction::UP;
+
+	direction getDirection(GLFWwindow* window, direction previousDir);
 
 public:
 	GameMechanics() = default;
 	GameMechanics(GameBoard* gameBoard);
 
-	void onUpdate(direction dir);
+	void onUpdate(GLFWwindow* window);
 	void onRender(GLFWwindow* window);
 	
 	void initGame();

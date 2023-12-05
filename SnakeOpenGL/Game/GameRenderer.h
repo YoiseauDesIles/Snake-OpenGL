@@ -56,6 +56,7 @@ private:
 
 	float m_windowWidth, m_windowHeight;
 	std::vector<Quad> m_vertices;
+	std::vector<uint32_t> m_indices;
 
 	std::unique_ptr<VertexArray> m_VertexArray;
 	std::unique_ptr<IndexBuffer> m_IndexBuffer;
@@ -74,6 +75,7 @@ private:
 	std::vector<uint32_t> initIndices(const size_t& maxIndexCount);
 	Quad createQuad(float x, float y);
 	void initVertices();
+	void setQuadColor(Quad* quad, Vec4 color);
 
 public:
 	GameRenderer() = default;
@@ -82,6 +84,7 @@ public:
 	void drawGameOver() const;
 	Renderer* getRenderer() { return &m_renderer; }
 
+	void updateVertices(GameBoard& gameBoard);
 	void draw(GLFWwindow* window);
 
 	friend std::ostream& operator<<(std::ostream& os, const GameRenderer& render);

@@ -11,8 +11,8 @@
 class GameBoard
 {
 private:
-	static const uint8_t GRID_WIDTH = 20;
-	static const uint8_t GRID_HEIGHT = 20;
+	static const uint8_t GRID_WIDTH = 10;
+	static const uint8_t GRID_HEIGHT = 10;
 
 
 	std::array<std::array<Case, GRID_WIDTH>, GRID_HEIGHT> m_Grid;
@@ -35,7 +35,6 @@ public:
 
 	Snake* getSnake() { return &m_snake; }
 	Case* getFruitCoords() const { return m_fruit; }
-	bool isSnakeCase() const;
 
 };
 
