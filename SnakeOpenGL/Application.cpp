@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(400, 400, "Snake OpenGL", NULL, NULL);
+	window = glfwCreateWindow(800, 800, "Snake OpenGL", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();

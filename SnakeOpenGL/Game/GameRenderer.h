@@ -84,7 +84,7 @@ public:
 	void drawGameOver() const;
 	Renderer* getRenderer() { return &m_renderer; }
 
-	void updateVertices(GameBoard& gameBoard);
+	void updateVertices(GameBoard& gameBoard, float iTime);
 	void draw(GLFWwindow* window);
 
 	friend std::ostream& operator<<(std::ostream& os, const GameRenderer& render);

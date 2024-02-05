@@ -20,6 +20,7 @@ void GameLoop::startGame(GLFWwindow* window)
 	double period = 1000 / FPS; //16 ms
 
 	m_frameCnt = 0;
+	float iTime = 0.0f;
     direction prevDir = direction::UP;
 
 	GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
@@ -34,15 +35,17 @@ void GameLoop::startGame(GLFWwindow* window)
 		} while (t2 - t1 < period);
 
 
+		iTime += 0.001;
 		m_frameCnt++;
-		if (m_frameCnt % 5 == 0) {
+		
+		if (m_frameCnt % 8 == 0) {
 
 			glfwSwapBuffers(window);
 
 			glfwPollEvents();
 
 			m_gameMechanics.onUpdate(window);
-			m_gameMechanics.onRender(window);
+			
 
 			if (m_gameMechanics.isGameOver()) {
 				stopGame();
@@ -51,6 +54,8 @@ void GameLoop::startGame(GLFWwindow* window)
 			}
 
 		}
+		m_gameMechanics.onRender(window, iTime);
+
 	}
 
 }

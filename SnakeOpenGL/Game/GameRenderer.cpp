@@ -1,6 +1,7 @@
 #include "GameRenderer.h"
 
 #include "GLFW/glfw3.h"
+#include <chrono>
 
 Vertex* createQuad2(Vertex* target, float x, float y)
 {
@@ -76,6 +77,7 @@ void GameRenderer::initRenderer()
 	glm::mat4 MVPMatrix = m_ProjectionMatrix * m_ViewMatrix * modelMatrix;
 	m_Shader->bind();
 	m_Shader->setUniformMat4f("u_MVP", MVPMatrix);
+	
 
 	m_renderer.draw(*m_VertexArray, *m_IndexBuffer, *m_Shader);
 
@@ -214,7 +216,8 @@ Quad GameRenderer::createQuad(float x, float y)
 
 	x *= quadWidth;
 	y *= quadHeight;
-	int offset = 2.0f;
+	//int offset = 2.0f;
+	int offset = 0.0f;
 
 	Quad quad;
 	quad.vertex1.position = { x + offset ,y + offset };
@@ -232,7 +235,7 @@ Quad GameRenderer::createQuad(float x, float y)
 	return quad;
 }
 
-void GameRenderer::updateVertices(GameBoard& gameBoard)
+void GameRenderer::updateVertices(GameBoard& gameBoard, float iTime)
 {
 	std::map<caseStatus, Vec4> colorMap =
 	{
@@ -240,6 +243,13 @@ void GameRenderer::updateVertices(GameBoard& gameBoard)
 		{caseStatus::FRUIT, {0.9, 0.2, 0.4, 1.0}},
 		{caseStatus::SNAKE, {0.2, 0.6, 0.2, 1.0}}
 	};
+
+	auto beg = std::chrono::high_resolution_clock::now();
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - beg);
+
+
+	m_Shader->setUniform1f("u_ITime", iTime);
 
 	auto board = gameBoard.getGrid();
 

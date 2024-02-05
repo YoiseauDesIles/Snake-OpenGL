@@ -21,7 +21,7 @@ public:
 	GameMechanics(GameBoard* gameBoard);
 
 	void onUpdate(GLFWwindow* window);
-	void onRender(GLFWwindow* window);
+	void onRender(GLFWwindow* window, float iTime);
 	
 	void initGame();
 	void checkGameCase();
